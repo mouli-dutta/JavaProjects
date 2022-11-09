@@ -14,8 +14,104 @@ public class JavaProjects {
         list.add(new Parent("Numbers", getNumbers()));
         list.add(new Parent("Mathematics", getMathematics()));
         list.add(new Parent("Sequences", getSequences()));
+        list.add(new Parent("Regex", getRegex()));
 
         return list;
+    }
+
+    private static ArrayList<Child> getRegex() {
+        ArrayList<Child> c = new ArrayList<>();
+        c.add(new Child(
+                "Check Number",
+                "Write a regex that will return true if the given object is a Number, otherwise false.\n\nFor example 1234 is a valid number but 12a3 or a12 are not valid.",
+                "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n\n        try (var sc = new Scanner(System.in)) {\n            System.out.println(\"Enter a string.\");\n            String input = sc.nextLine();\n            \n            boolean isNumber = input.matches(\"\\\\d+\"); // \\d means digits (Character in range 0-9), and + means 1 or more times. So \\d+ means match any digit for 1 or more times.\n            System.out.println(\"Is the given string a number ? \" + isNumber);\n\n        } catch (Exception e) {\n            System.out.println(\"Error!\" + e.getMessage());\n        }\n    }\n}",
+                "Enter a string.\n123\nIs the given string a number ? true\n\nEnter a string.\n12dd16z\nIs the given string a number ? false"
+        ));
+
+        c.add(new Child(
+                "Check Vowel",
+                "Write a regex which will return true if given object is a single vowel (a, e, i, o, u), otherwise false.",
+                "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n\n        try (var sc = new Scanner(System.in)) {\n            System.out.println(\"Enter a string.\");\n            String input = sc.nextLine();\n\n            boolean isVowel = input.toLowerCase() // case insensitive\n                                   .matches(\"[aeiou]\"); // To match a vowel we use Character range (square brackets) that contains all the vowels (e.g. [aeiou])\n            System.out.println(\"Is the given string a vowel ? \" + isVowel);\n\n        } catch (Exception e) {\n            System.out.println(\"Error!\" + e.getMessage());\n        }\n    }\n}",
+                "Enter a string.\na\nIs the given string a vowel ? true\n\nEnter a string.\nlol\nIs the given string a vowel ? false\n"
+        ));
+
+        c.add(new Child(
+                "Check Letter",
+                "Write a regex which will return true if the given object is a single ASCII letter (case insensitive). otherwise false.",
+                "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n\n        try (var sc = new Scanner(System.in)) {\n            System.out.println(\"Enter a string.\");\n            String input = sc.nextLine();\n\n            boolean isLetter = input.matches(\"\\\\p{L}\"); // \\p{L} matches a Unicode letter\n            System.out.println(\"Is the given string a single letter ? \" + isLetter);\n\n        } catch (Exception e) {\n            System.out.println(\"Error!\" + e.getMessage());\n        }\n    }\n}",
+                "Enter a string.\nA\nIs the given string a single letter ? true\n\nEnter a string.\ng\nIs the given string a single letter ? true\n\nEnter a string.\navc5\nIs the given string a single letter ? false\n"
+        ));
+
+        c.add(new Child(
+                "Check if all letters are in alphabetical order",
+                "Write a regex that matches a string with lowercase characters in alphabetical order, including any number of spaces. Leading and trailing whitespaces are also allowed. An empty string should also match.\n\nFor example:\n\nRegex should match \"  a bcd  efg \" but should not match \"asd g u \"",
+                "import java.util.Scanner;\nimport java.util.stream.IntStream;\n\npublic class Main {\n    public static void main(String[] args) {\n\n        try (var sc = new Scanner(System.in)) {\n            System.out.println(\"Enter your password.\");\n            String input = sc.nextLine();\n\n            System.out.println(\"Is the string in alphabetic order?\\n\" + isAlphabetic(input));\n\n        } catch (Exception e) {\n            System.out.println(\"Error!\" + e.getMessage());\n        }\n    }\n\n    private static boolean isAlphabetic(String input) {\n        String[] alphabets = IntStream.rangeClosed('a', 'z').mapToObj(Character::toString).toArray(String[]::new);\n\n        String pattern =    \" *\"                                    // matches zero or more spaces\n                          + String.join(\"* *\", alphabets)   // followed by zero or more `a` then matches zero or more spaces followed by zero or more `b` ...(continues the sequence) then matches zero or more spaces followed by `z`\n                          + \"* *\";                                  // matches `z` zero or more times followed by zero or more spaces\n\n        return input.toLowerCase().matches(pattern);\n    }\n}",
+                "Enter your password.\n  a bcd  efg \nIs the string in alphabetic order?\ntrue\n\nEnter your password.\nasd g u \nIs the string in alphabetic order?\nfalse"
+        ));
+
+        c.add(new Child(
+                "Find every third character in a word",
+                "Find every 3rd character of a word without using any number in your program.\n\nFor example:\n\nILoveToCodeInJava => oToIa",
+                "import java.util.Scanner;\nimport java.util.function.UnaryOperator;\nimport java.util.regex.MatchResult;\nimport java.util.stream.Collectors;\n\npublic class Regex {\n\n    public static void main(String[] args) {\n\n        try (var sc = new Scanner(System.in)) {\n            System.out.println(\"Enter a word.\");\n            String word = sc.next();\n\n            System.out.println(\"Every third character of the word :\\n\" + findThirdChar.apply(word));\n\n        } catch (Exception e) {\n            System.out.println(\"Error!\" + e);\n        }\n    }\n\n    private static final UnaryOperator<String> \n            findThirdChar = str ->\n                new Scanner(str)\n                .findAll(\"(\\\\w)(?<=\\\\G...)\") // captures a character followed by two characters\n                .map(MatchResult::group) // group the matched 3rd character\n                .collect(Collectors.joining()); // finally join all the matched character in a String\n}",
+                "Enter a word.\nILoveToCodeInJava\n\nEvery third character of the word :\noToIa"
+        ));
+
+        c.add(new Child(
+                "Name Initials",
+                "Write a regex to find the initial letters of a name.\n\nFor example:\nStephen William Hawking should return SH.",
+                "import java.util.Scanner;\nimport java.util.regex.Pattern;\nimport java.util.stream.Collectors;\n\npublic class NameInitial {\n\n    public static void main(String[] args) {\n\n        try (var sc = new Scanner(System.in)) {\n            System.out.println(\"Enter your name.\");\n            String inputStr = sc.nextLine();\n\n            String initials = nameInitial(inputStr);\n            System.out.println(\"Your name initials are \" + initials);\n\n        } catch (Exception e) {\n            System.out.println(\"Error!\" + e);\n        }\n    }\n\n    private static String nameInitial(String str) {\n        return\n                Pattern.compile(\"(.).*\\\\s(.).*\")\n                     /*\n                       the first capturing group (.) matches the first character of the first word\n                       .* metacharacter consumes all the characters after the first character until a line break\n                       \\s consumes all whitespace characters\n                       the second (.) matches the first character of the last word\n                       then the .* metacharacter consumes all the characters after the first character until a line break */\n\n                       .matcher(str) // pass the input string to Matcher\n                       .results() // create a Stream of MatchResults\n                       .map(m -> m.group(1) + m.group(2)) // join the first and second capturing group\n                       .map(String::toUpperCase) // convert the string to uppercase\n                       .collect(Collectors.joining()); // finally join the string and return the result\n    }\n}",
+                "Enter your name.\nStephen William Hawking\nYour name initials are SH"
+        ));
+
+        c.add(new Child(
+                "Prime String",
+                "Write a regex to check whether a string is Prime or not.\n\nA string is called Prime if it can't be constructed by concatenating more than one equal string.\n\nFor example:\n\n\"abac\" is prime but \"xyxy\" is not a prime as, xyxy = xy + xy",
+                "import java.text.MessageFormat;\nimport java.util.Scanner;\nimport java.util.regex.Pattern;\n\npublic class Main {\n    public static void main(String[] args) {\n\n        try (var sc = new Scanner(System.in)) {\n            System.out.println(\"Enter a string.\");\n            String input = sc.nextLine();\n\n            System.out.println(MessageFormat.format(\"{0} {1} a prime string.\", input, isPrimeString(input) ? \"is\" : \"is not\"));\n\n        } catch (Exception e) {\n            System.out.println(\"Error!\" + e.getMessage());\n        }\n    }\n\n    private static boolean isPrimeString(String input) {\n        return Pattern.compile(\"(\\\\p{ASCII}+)\\\\1+\")\n                      /*\n                            \\p{ASCII}   matches any ascii character\n                            +           matches the ascii character for one or more times\n                            \\1          matches the first capturing group in the matched expression\n                             +          looks for the capturing group for 1 or more times\n                             \n                             that is, the regex matches any string which can be composed by concatenating multiple equal strings\n                       */\n                      .matcher(input)\n                      .results()\n                      .noneMatch(s -> input.equals(s.group())); // if the matched group is not equal to the input string then its a Prime string.\n    }\n}",
+                "Enter a string.\nhello\nhello is a prime string.\n\nEnter a string.\nababab\nababab is not a prime string.\n"
+        ));
+
+        c.add(new Child(
+                "Replace occurrences of a word",
+                "Write a regex to replace all occurrences of a given word with another word.",
+                "import java.util.Scanner;\nimport java.util.regex.Pattern;\n\npublic class Main {\n    public static void main(String[] args) {\n\n        try (var sc = new Scanner(System.in)) {\n            System.out.println(\"Enter a string.\");\n            String input = sc.nextLine();\n\n            System.out.println(\"Enter the word you want to replace in the above string.\");\n            String replace = sc.nextLine();\n\n            System.out.println(\"Enter the word you want to replace the above word with.\");\n            String replacement = sc.nextLine();\n            \n            /*  To find a particular word from the given input\n                specify that word within the word boundaries and\n                then use the replaceAll method to replace all occurrences of the matched word.\n             */\n            String modified = Pattern.compile(\"\\\\b\" + replace + \"\\\\b\", Pattern.CASE_INSENSITIVE)\n                                     .matcher(input)\n                                     .replaceAll(replacement);\n\n            System.out.println(\"Modified string is :\\n\" + modified);\n        } catch (Exception e) {\n            System.out.println(\"Error!\" + e.getMessage());\n        }\n    }\n}",
+                "Enter a string.\n\nYes, I'm not a Tea person but I don't mind to make a tea for you or to have a Tea with you.\n\nEnter the word you want to replace in the above string.\n\ntea\n\nEnter the word you want to replace the above word with.\n\ncoffee\n\nModified string is :\n\nYes, I'm not a coffee person but I don't mind to make a coffee for you or to have a coffee with you."
+        ));
+
+        c.add(new Child(
+                "Text Compression",
+                "Write a Java code to compress an alphanumeric string given by the user.\n\nFor example :\n\nSuppose a string \"aaabbc\".\nNow count the occurrence of each letter in the string.\nSo the final string should be \"a3b2c\" as there are 3 'a', 2 'b' and only 1 'c'.",
+                "import java.util.Scanner;\nimport java.util.regex.Pattern;\nimport java.util.stream.Collectors;\n\npublic class Main {\n    public static void main(String[] args) {\n\n        try (var sc = new Scanner(System.in)) {\n            System.out.println(\"Enter a String.\");\n            String inputStr = sc.nextLine();\n\n            String compressed = textCompressor(inputStr);\n            System.out.println(\"The compressed string is \" + compressed);\n\n        } catch (Exception e) {\n            System.out.println(\"Error!\" + e);\n        }\n    }\n    private static String textCompressor(String str) {\n        return\n        // compile the regex\n        Pattern.compile(\"(\\\\p{ASCII})\\\\1*\")\n                /* \\p{ASCII} matches all ascii characters\n                   \\1* matches the capturing group for 0 or more times */\n\n               .matcher(str) // pass the string which needs to be matched\n               .results() // create a stream of MatchResults\n               .map( m ->\n                       m.group().length() == 1 ? // check if the matched group length is equal to 1\n                               m.group().substring(0, 1) // if true we need to only print the first character\n                       :\n                               m.group().substring(0, 1) + m.group().length()) // if the character appeared more than 1 time than print the first character and the number of times it occurred\n               .collect(Collectors.joining()); // finally join all the characters with their occurrences to a string\n    }\n}",
+                "Enter a String.\naaaaabbbbrrrrrcggghh\nThe compressed string is a5b4r5cg3h2"
+        ));
+
+        c.add(new Child(
+                "Validate PIN code",
+                "A valid PIN code is either 4 digits or 6 digits and does not contain anything other than exactly 4 digits or 6 digits.\nWrite a Java code which will return true if the PIN code is valid else return false.",
+                "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n\n        try (var sc = new Scanner(System.in)) {\n            System.out.println(\"Enter a string.\");\n            String input = sc.nextLine();\n\n            String pattern = \"\\\\d{4}\" + \"|\" + \"\\\\d{6}\";\n            /*\n            *   \\d   matches a digit (0-9)\n            *   {4}  that repeats 4 times\n            *    |    or\n            *   \\d   matches a digit (0-9)\n            *   {6}  that repeats 6 times\n            * */\n            boolean isValidPIN = input.matches(pattern); // \\p{L} matches a Unicode letter\n            System.out.println(\"Is valid PIN ? \" + isValidPIN);\n\n        } catch (Exception e) {\n            System.out.println(\"Error!\" + e.getMessage());\n        }\n    }\n}",
+                "Enter a string.\n123456\nIs valid PIN ? true\n\nEnter a string.\n346d\nIs valid PIN ? false"
+        ));
+
+        c.add(new Child(
+                "Validate Username",
+                "Write a Java program to validate username.\nUsername can contain lowercase letters, numbers and underscore and length should be between 4 and 16 character (both inclusive)",
+                "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n\n        try (var sc = new Scanner(System.in)) {\n            System.out.println(\"Enter username to check if its valid or not.\");\n            String input = sc.nextLine();\n\n            System.out.println(\"Is valid user name ? \" + isValidUserName(input));\n\n        } catch (Exception e) {\n            System.out.println(\"Error!\" + e.getMessage());\n        }\n    }\n\n    private static boolean isValidUserName(String time) {\n        String pattern = \"[\\\\p{Ll}\\\\d_]{4,16}\"; // use character range to match lowercase letters \\p{Ll}, digit \\d and underscore _ and check if the length is between 4-16 characters.\n        return time.matches(pattern);\n    }\n}",
+                "Enter username to check if its valid or not.\nuser_42\nIs valid user name ? true\n\nEnter username to check if its valid or not.\ninvalid_user_name\nIs valid user name ? false"
+        ));
+
+        c.add(new Child(
+                "Validate 24 hours time",
+                "Write a regex which will validate 24 hours time string.\n\nFor example:\n\nAccepted : 01:00-1:00\n\nNot accepted : 24:00\n\nYou should also check for correct length and no spaces.",
+                "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n\n        try (var sc = new Scanner(System.in)) {\n            System.out.println(\"Enter time to check if its in valid 24 hour format.\");\n            String input = sc.nextLine();\n\n            System.out.println(\"Is valid time? \" + isValidTime(input));\n\n        } catch (Exception e) {\n            System.out.println(\"Error!\" + e.getMessage());\n        }\n    }\n\n    private static boolean isValidTime(String time) {\n        String pattern =  \"(\"\n                             + \"[0-1]?\\\\d\"   // the first number (hours) is either a number between 0 and 19 [0-1]?\\\\d (allowing single digit number)\n                             + \"|\"           // or\n                             + \"2[0-3]\"      // a number between 20-23, 2[0-3]\n                        + \")\"\n                        + \":\"\n                        + \"[0-5]\\\\d\";       // the second number (minutes) is always a number between 00 and 59, [0-5]\\\\d (not allowing single digit number)\n\n        return time.matches(pattern);\n    }\n}",
+                "Enter time to check if its in valid 24 hour format.\n14:20\nIs valid time? true\n\nEnter time to check if its in valid 24 hour format.\n25:02\nIs valid time? false"
+        ));
+        c.add(new Child(
+                "Validate Password",
+                "Write a regex that will validate a Password meeting the following requirements:\n- Between 8-20 characters\n- contains lowercase letters\n- contains uppercase letters\n- contains digits\n- contains special characters from !@#$%^&*?\n\nReturn Valid if passed, otherwise Invalid.",
+                "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n\n        try (var sc = new Scanner(System.in)) {\n            System.out.println(\"Enter your password.\");\n            String input = sc.nextLine();\n\n            System.out.println(\"Password is \" + (isValidPassword(input) ? \"Valid.\" : \"Invalid.\"));\n\n        } catch (Exception e) {\n            System.out.println(\"Error!\" + e.getMessage());\n        }\n    }\n\n    private static boolean isValidPassword(String input) {\n        String pattern =   \"(?=.*[a-z])\"\n                         + \"(?=.*[A-Z])\"\n                         + \"(?=.*\\\\d)\"\n                         + \"(?=.*[!@#$%%^&*?])\"\n                         + \"[A-Za-z\\\\d!@#$%%^&*?]{8,20}\";\n\n            /*\n                  (?=Your_regex) is a Positive lookahead.\n                  It is a zero-width assertion meaning,\n                  it matches a location that is followed by the regex contained within `(?` and `)`.\n\n                  `.*`    matches any character for zero or more times\n\n                  so what the above regex is saying is :\n                      - match zero or more characters and then a Lowercase letter (but don't capture)\n                      - match zero or more character and then a Uppercase letter (but don't capture)\n                      - match zero or more character and then a digit (but don't capture)\n                      - match zero or more characters and the a special character (but don't capture)\n                      - the character range which contains all the required matches must be between 8 - 20 characters long\n             */\n\n        return input.matches(pattern);\n    }\n}",
+                "Enter your password.\nHello$World42^\nPassword is Valid.\n\nEnter your password.\nHello World\nPassword is Invalid."
+        ));
+
+        return c;
     }
 
     private static ArrayList<Child> getSequences() {

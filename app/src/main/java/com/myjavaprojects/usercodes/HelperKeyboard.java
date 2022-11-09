@@ -142,3 +142,6 @@ public class HelperKeyboard {
         editText.setSelection(cursorPos + strToAdd.length()/2);
     }
 }
+
+
+

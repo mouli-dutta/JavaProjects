@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/main_screen"
+    tools:context=".SearchActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/search_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="Search for a Java code"
+        app:titleTextColor="@color/syntax_plain_text"
+        app:navigationIcon="@drawable/ic_baseline_arrow_back_24" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInput_search"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:focusableInTouchMode="true"
+        android:layout_margin="15dp"
+        android:theme="@style/ThemeOverlay.AppTheme.TextInputEditText.Outlined">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/auto_complete_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:ellipsize="end"
+            android:imeOptions="actionSearch"
+            android:inputType="textLongMessage"
+            android:maxLines="1"
+            android:padding="15dp"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <TextView
+        android:id="@+id/error_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="17sp"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:isScrollContainer="true"
+        android:overScrollMode="never"
+        android:padding="5dp"
+        android:layout_margin="15dp"
+        android:scrollbars="none"/>
+
+</LinearLayout>

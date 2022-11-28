@@ -7,13 +7,22 @@
     android:background="@color/main_screen"
     tools:context=".bottomnavfragments.YourCodesFragment">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/your_codes_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/list_background"
+        app:title="Your Codes" />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_user_codes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="1dp"
         android:padding="2dp"
-        app:elevation="6dp" />
+        app:elevation="6dp"
+        android:layout_below="@id/your_codes_toolbar"/>
 
     <ImageView
         android:id="@+id/empty_code_image"
@@ -33,6 +42,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_margin="10dp"
+        android:padding="10dp"
         android:alpha="0.2"
         android:text="@string/no_code"
         android:textColor="@color/white"

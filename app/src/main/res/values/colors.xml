@@ -23,4 +23,7 @@
     <color name="syntax_plain_text">#f4f4f4</color>
     <color name="syntax_comment">#7F7F81</color>
 
+    <!-- Colors for delete alert dialog -->
+    <color name="redDark">#F65C59</color>
+    <color name="greenDark">#48D34E</color>
 </resources>

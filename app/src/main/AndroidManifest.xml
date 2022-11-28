@@ -9,10 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyJavaProjects">
-        <activity android:name=".usercodes.CodeEditor" />
-        <activity android:name=".defaultcodes.DisplayChildren" />
-        <activity android:name=".defaultcodes.DisplayParentItems" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".SearchActivity" android:exported="true"/>
+        <activity android:name=".usercodes.CodeEditor" android:exported="true"/>
+        <activity android:name=".defaultcodes.DisplayChildren" android:exported="true"/>
+        <activity android:name=".defaultcodes.DisplayParentItems" android:exported="true"/>
+        <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

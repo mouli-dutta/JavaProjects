@@ -5,11 +5,11 @@
     android:layout_height="match_parent"
     tools:context=".bottomnavfragments.AboutFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:textColor="@color/syntax_plain_text"
-        android:text="Hello, I'm Mouli Dutta\nHope you found this app helpful.\nFor bug report kindly mailto -> bugreport@gmail.com" />
+        android:text="Hello, I'm Mouli Dutta\nHope you found this app helpful.\nFor bug report kindly mail to -> minho.kim42.42@gmail.com"
+        android:textSize="20sp" />
 
 </FrameLayout>

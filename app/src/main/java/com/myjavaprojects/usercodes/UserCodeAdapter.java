@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.myjavaprojects.R;
@@ -35,12 +36,32 @@ public class UserCodeAdapter extends RecyclerView.Adapter<UserCodeAdapter.UserVi
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         UserCode userCode = userCodes.get(position);
         holder.textView.setText(userCode.getTitle());
+
         holder.mainCodeRowLayout.setOnClickListener(v -> {
             Intent i = new Intent(context, CodeEditor.class);
             i.putExtra("user_code_id", userCode.getId());
             i.putExtra("user_code_title", userCode.getTitle());
             i.putExtra("user_code", userCode.getCode());
             context.startActivity(i);
+        });
+
+        holder.mainCodeRowLayout.setOnLongClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DeleteDialogTheme);
+            builder.setIcon(R.drawable.ic_baseline_warning_24).setTitle("Delete code ?");
+
+            builder.setPositiveButton("Yes", ((dialog, which) -> {
+                CodeDatabase cDb = new CodeDatabase(context);
+                cDb.deleteOneRow(userCode.getId());
+                notifyDataSetChanged();
+
+                // recreate the current activity
+
+            }));
+
+            builder.setNegativeButton("No", (dialog, which) -> {});
+            builder.create();
+            builder.show();
+            return true;
         });
     }
 

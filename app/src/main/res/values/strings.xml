@@ -9,7 +9,7 @@
 
     <!-- your codes strings -->
     <string name="add_new">add new code</string>
-    <string name="no_code">Click on the plus button to add a new code</string>
+    <string name="no_code">Click on the plus button\nto add a new code</string>
     <string name="write_your_code_here">Write your code here</string>
     <string name="write_code_title_description">Write title here</string>
 
@@ -53,5 +53,6 @@
     <string name="at">\@</string>
     <string name="multiline_comment">/**/</string>
     <string name="comment_single">\\</string>
+    <string name="search">Search</string>
 
 </resources>
